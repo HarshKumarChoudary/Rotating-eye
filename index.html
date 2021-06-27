@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Eye</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        width: 100%;
+        box-sizing: border-box;
+        background-attachment: fixed;
+    }
+    body{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(133, 196, 238);
+    }
+    .center-div{
+        margin-left: 28%;
+    }
+    .face{
+        background-color: white;
+        display: flex; 
+        border-radius: 50%;
+        height: 600px;
+        width: 600px;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
+    }
+    .eyes{
+        width: inherit;
+        height: 300px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .eyeball{
+        width: 250px;
+        height: 250px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: rgba(50,50,93,0.25) 0px 50px 100px -20px,rgba(0,0,0,0.3) 0px 30px 50px ;
+        overflow: hidden;
+    }
+    .pupil{
+        height: 50px;
+        width: 50px;
+        background-color: black;
+        border-radius: 50%;
+        box-shadow: rgb(0,0,0,0.1) 0px 10px 50px;
+    }
+</style>
+<body>
+    <div class="center-div">
+        <div class="face">
+            <div class="eyes">
+            <div class="eyeball" >
+                <div class="pupil" ></div>
+            </div>
+            <div class="eyeball">
+                <div class="pupil"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script>
+        let pupilstart = -100;
+        let pupilrange = 200;
+        let pupils = document.getElementsByClassName('pupil');
+        let pupilsarr = Array.from(pupils)
+
+        let mouseXstartpoint = 0;
+        let mouseXendpoint = window.innerWidth;
+        let currentXposition = 0;
+        let fracXvalue = 0;
+
+        let mouseYendpoint = window.innerHeight;
+        let currentYposition = 0;
+        let fracYvalue = 0;
+
+        let mouseXrange = mouseXendpoint-mouseXstartpoint;
+
+        const mouseMove = (event) =>{
+            currentXposition = event.clientX-mouseXstartpoint;
+            fracXvalue = currentXposition/mouseXrange;
+
+            currentYposition = event.clientY;
+            fracYvalue = currentYposition/mouseYendpoint;
+            let pupilXcurrentposition = pupilstart + fracXvalue*pupilrange;
+            let pupilYcurrentposition = pupilstart + fracYvalue*pupilrange;
+            
+            pupilsarr.forEach((currpupil)=>{
+                currpupil.style.transform = `translate(${pupilXcurrentposition}px,${pupilYcurrentposition}px)`;
+            })
+        }
+        const windoResize = (event) => {
+            mouseYendpoint = window.innerHeight;
+            mouseXendpoint = window.innerWidth;
+            mouseXrange = mouseXendpoint-mouseXstartpoint;
+        }
+        window.addEventListener('mousemove',mouseMove);
+        window.addEventListener('resize',windoResize);
+    </script>
+</body>
+</html>
