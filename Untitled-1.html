@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Eye</title>
+</head>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+    }
+    body{
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(133, 196, 238);
+    }
+    
+    .face{
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        height: 600px;
+        width: 600px;
+        box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
+    }
+    .face::before{
+        content: '';
+        position: absolute;
+        top:70%;
+        height: 120px;        
+        width: 250px;
+        background-color: black;
+        border-bottom-left-radius: 500px;
+        border-bottom-right-radius: 500px;
+        transition: 0.5s;
+    }
+    .face:hover::before{
+        top:72%;
+        height: 60px;        
+        width: 250px;
+        background-color: black;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+    .eyes{
+        position: relative;
+        top:-70px;
+        display: flex; 
+   }
+     .eyeball{
+        margin: 0 15px;
+        position: relative;
+        width: 250px;
+        height: 250px;
+        background-color: white;
+        border-radius: 50%;
+        display: block;
+        box-shadow: 0 0 98px 6px rgba(0, 0, 0, 0.2);;        
+    }
+     .eyeball::before{
+        content: '';
+        position: absolute;
+        top:50%;
+        left: 50px;     
+        transform: translate(-50%,-50%);
+        width: 80px;
+        height: 80px;
+        background-color: black;
+        border-radius: 50%;
+    }
+     
+</style>
+<body>
+        <div class="face">
+                <div class="eyes">
+                    <div class="eyeball"></div>
+                    <div class="eyeball"></div>
+                </div>
+        </div>
+    <script>
+        document.querySelector('body').addEventListener('mousemove',eyerotate);
+        function eyerotate(){
+            var eyes = document.querySelectorAll('.eyeball');
+            eyes.forEach(function(eye){
+                let x = (eye.getBoundingClientRect().left)+(eye.clientWidth/2);
+                let y = (eye.getBoundingClientRect().top)+(eye.clientHeight/2);
+                let radian = Math.atan2(event.pageX-x,event.pageY-y);
+                let rotation = (radian*(180/Math.PI)*(-1))+270;
+                eye.style.transform = "rotate("+rotation+"deg)";
+            })
+        }
+    </script>
+</body>
+</html>
